@@ -23,6 +23,7 @@ class Parking
         $this->startDateTime = $startDateTime;
         $this->currentDateTime = $startDateTime;
         $this->endDateTime = $endDateTime;
+        $this->tariffParts = [];
     }
 
     public function getCurrent()

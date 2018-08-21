@@ -6,5 +6,5 @@ use Inteleon\SmsPark\Parking;
 
 interface TariffRuleInterface
 {
-    public function execute(Parking $parking): Parking;
+    public function execute(Parking $parking);
 }
