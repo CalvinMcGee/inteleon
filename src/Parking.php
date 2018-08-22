@@ -26,31 +26,49 @@ class Parking
         $this->tariffParts = [];
     }
 
+    /**
+     * @return \DateTime
+     */
     public function getCurrent()
     {
         return $this->currentDateTime;
     }
 
+    /**
+     * @param DateTime $currentDateTime
+     */
     public function setCurrent(DateTime $currentDateTime)
     {
         $this->currentDateTime = $currentDateTime;
     }
 
+    /**
+     * @return \DateTime
+     */
     public function getStartDate()
     {
         return $this->startDateTime;
     }
 
+    /**
+     * @return \DateTime
+     */
     public function getEndDate()
     {
         return $this->endDateTime;
     }
 
+    /**
+     * @param int $tariffPart
+     */
     public function addTariffPart($tariffPart)
     {
         $this->tariffParts[] = $tariffPart;
     }
 
+    /**
+     * @return array
+     */
     public function getTariffParts()
     {
         return $this->tariffParts;

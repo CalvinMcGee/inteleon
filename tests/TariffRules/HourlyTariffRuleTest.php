@@ -16,7 +16,7 @@ class HourlyTariffRuleTest extends TestCase
      */
     public function setUp()
     {
-        $this->hourlyTariffRule = new HourlyTariffRule(5, 9, 0, 18, 0, 25);
+        $this->hourlyTariffRule = new HourlyTariffRule(5, 9, 0, 18, 0, null, 25);
         
     }
 
@@ -27,6 +27,17 @@ class HourlyTariffRuleTest extends TestCase
     {
         $parking = new Parking(new \DateTime('2018-01-01 12:00:00'), new \DateTime('2018-01-01 16:00:00'));
         $actualParking = $this->hourlyTariffRule->execute($parking);
+        $this->assertEquals([20], $actualParking->getTariffParts());
+        $this->assertEquals($actualParking->getEndDate(), $actualParking->getCurrent());
+    }
+    /**
+     * Test calculate fee
+     */
+    public function testExecuteFeeAgain()
+    {
+        $parking = new Parking(new \DateTime('2018-01-01 10:00:00'), new \DateTime('2018-01-01 12:00:00'));
+        $tariffRule = new HourlyTariffRule(10, 9, 0, 18, 0);
+        $actualParking = $tariffRule->execute($parking);
         $this->assertEquals([20], $actualParking->getTariffParts());
         $this->assertEquals($actualParking->getEndDate(), $actualParking->getCurrent());
     }
@@ -43,6 +54,18 @@ class HourlyTariffRuleTest extends TestCase
         $actualParking = $this->hourlyTariffRule->execute($parking);
         $this->assertEquals([], $actualParking->getTariffParts());
         $this->assertEquals($actualParking->getStartDate(), $actualParking->getCurrent());
+    }
+
+    /**
+     * Test skipped TariffRule
+     */
+    public function testExecuteSkippedAgain()
+    {
+        $parking = new Parking(new \DateTime('2018-01-01 10:00:00'), new \DateTime('2018-01-01 12:00:00'));
+        $tariffRule = new HourlyTariffRule(0, 0, 0, 9, 0);
+        $actualParking = $tariffRule->execute($parking);
+        $this->assertEquals([], $actualParking->getTariffParts());
+        $this->assertEquals($parking->getStartDate(), $actualParking->getCurrent());
     }
 
     /**
@@ -70,5 +93,19 @@ class HourlyTariffRuleTest extends TestCase
         $actualParking = $this->hourlyTariffRule->execute($parking);
         $this->assertEquals([25], $actualParking->getTariffParts());
         $this->assertEquals($parking->getEndDate(), $actualParking->getCurrent());
+    }
+
+    /**
+     * Test parking tariff duration
+     *
+     * Test when we have a duration
+     */
+    public function testExecuteDuration()
+    {
+        $parking = new Parking(new \DateTime('2018-01-01 10:00:00'), new \DateTime('2018-01-01 12:00:00'));
+        $parkingTariff = new HourlyTariffRule(10, 9, 0, 18, 0, 1);
+        $actualParking = $parkingTariff->execute($parking);
+        $this->assertEquals([10], $actualParking->getTariffParts());
+        $this->assertEquals((new \DateTime('2018-01-01 11:00:00')), $actualParking->getCurrent());
     }
 }

@@ -5,11 +5,15 @@ namespace Inteleon\SmsPark;
 use Inteleon\SmsPark\TariffRules\TariffRuleInterface;
 use Inteleon\SmsPark\Exceptions\SmsParkException;
 
-class ParkingTariff
+class ParkingTariff implements \IteratorAggregate
 {
     /** @var array */
     private $tariffRules = [];
 
+    /**
+     * @param TariffRuleInterface $tariffRule
+     * @throws SmsParkException
+     */
     public function addTariffRule($tariffRule)
     {
         // @todo add Closure support
@@ -18,5 +22,13 @@ class ParkingTariff
         }
 
         $this->tariffRules[] = $tariffRule;
+    }
+
+    /**
+     * @return \ArrayIterator
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->tariffRules);
     }
 }
