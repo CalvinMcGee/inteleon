@@ -11,17 +11,21 @@ use Inteleon\SmsPark\TariffRules\HourlyTariffRule;
  */
 $storgatan = new ParkingTariff();
 
+$hourlyTariff = new HourlyTariffRule(25);
+
 // Free parking between 00:00 and 09:00
-$storgatan->addTariffRule(new HourlyTariffRule(0, 0, 0, 9, 0));
+$hourlyTariff->addRulePart(0, 0, 0, 9, 0);
 
 // First hour between 09:00 and 18:00 should be 10 SEK/h
-$storgatan->addTariffRule(new HourlyTariffRule(10, 9, 0, 18, 0, 1));
+$hourlyTariff->addRulePart(10, 9, 0, 18, 0, 1);
 
 // Parking between 09:00 and 18:00 after first hour should be 5 SEK/h
-$storgatan->addTariffRule(new HourlyTariffRule(5, 9, 0, 18, 0, 0, 25));
+$hourlyTariff->addRulePart(5, 9, 0, 18, 0);
 
 // Free parking between 18:00 and 24:00
-$storgatan->addTariffRule(new HourlyTariffRule(0, 18, 0, 24, 0));
+$hourlyTariff->addRulePart(0, 18, 0, 24, 0);
+
+$storgatan->addTariffRule($hourlyTariff);
 
 /**
  * Parking A

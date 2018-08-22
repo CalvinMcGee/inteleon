@@ -35,9 +35,9 @@ class Parking
     }
 
     /**
-     * @param DateTime $currentDateTime
+     * @param \DateTime $currentDateTime
      */
-    public function setCurrent(DateTime $currentDateTime)
+    public function setCurrent(\DateTime $currentDateTime)
     {
         $this->currentDateTime = $currentDateTime;
     }
@@ -48,6 +48,14 @@ class Parking
     public function getStartDate()
     {
         return $this->startDateTime;
+    }
+
+    /**
+     * @param \DateTime $endDateTime
+     */
+    public function setEndDate(\DateTime $endDateTime)
+    {
+        $this->endDateTime = $endDateTime;
     }
 
     /**
