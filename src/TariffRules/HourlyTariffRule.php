@@ -42,18 +42,22 @@ class HourlyTariffRule implements TariffRuleInterface
         $this->rulePart[] = $rulePart;
     }
 
+    /**
+     * @param Parking $parking
+     * @return Parking
+     */
     public function execute(Parking $parking)
     {
         $clonedParking = clone $parking;
         $endOfDay = new \Datetime(sprintf('%s 24:00:00', $parking->getCurrent()->format('Y-m-d')));
 
-        if($clonedParking->getEndDate() > $endOfDay) {
+        if ($clonedParking->getEndDate() > $endOfDay) {
             $clonedParking->setEndDate($endOfDay);
         }
 
         $iterator = new \ArrayIterator($this->rulePart);
 
-        while($iterator->valid()) {
+        while ($iterator->valid()) {
             $clonedParking = $this->executePart($clonedParking, $iterator->current());
 
             $iterator->next();
@@ -74,22 +78,22 @@ class HourlyTariffRule implements TariffRuleInterface
     {
         $tariffStart = new \Datetime(sprintf('%s %02d:%02d:00', $parking->getCurrent()->format('Y-m-d'), $rulePart->fromHour, $rulePart->fromMinute));
 
-        if($parking->getCurrent() < $tariffStart) {
+        if ($parking->getCurrent() < $tariffStart) {
             return $parking;
         }
 
-        if($rulePart->duration) {
+        if ($rulePart->duration) {
             $tariffEnd = clone $parking->getCurrent();
             $tariffEnd->add(new \DateInterval(sprintf('PT%dH', $rulePart->duration)));
         } else {
             $tariffEnd = new \Datetime(sprintf('%s %02d:%02d:00', $parking->getCurrent()->format('Y-m-d'), $rulePart->toHour, $rulePart->toMinute));
         }
 
-        if($parking->getCurrent() > $tariffEnd) {
+        if ($parking->getCurrent() > $tariffEnd) {
             return $parking;
         }
 
-        if($parking->getEndDate() > $tariffEnd) {
+        if ($parking->getEndDate() > $tariffEnd) {
             $period = $parking->getCurrent()->diff($tariffEnd);
             $parking->setCurrent($tariffEnd);
         } else {
@@ -123,7 +127,7 @@ class HourlyTariffRule implements TariffRuleInterface
     {
         $sum = array_sum($parking->getTariffParts());
 
-        if($this->maxFee && $sum > $this->maxFee) {
+        if ($this->maxFee && $sum > $this->maxFee) {
             return $this->maxFee;
         }
 

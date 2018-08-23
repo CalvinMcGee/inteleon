@@ -42,12 +42,12 @@ class ParkingFee
     {
         $parkingTariffIterator = $parkingTariff->getIterator();
 
-        while($parking->getCurrent() < $parking->getEndDate()) {
+        while ($parking->getCurrent() < $parking->getEndDate()) {
             $parking = $parkingTariffIterator->current()->execute($parking);
 
             $parkingTariffIterator->next();
 
-            if(!$parkingTariffIterator->valid()) {
+            if (!$parkingTariffIterator->valid()) {
                 $parkingTariffIterator->rewind();
             }
         }

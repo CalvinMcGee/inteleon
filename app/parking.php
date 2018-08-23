@@ -11,6 +11,7 @@ use Inteleon\SmsPark\TariffRules\HourlyTariffRule;
  */
 $storgatan = new ParkingTariff();
 
+// Max fee per day is 25 SEK
 $hourlyTariff = new HourlyTariffRule(25);
 
 // Free parking between 00:00 and 09:00

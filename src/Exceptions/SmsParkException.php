@@ -2,4 +2,6 @@
 
 namespace Inteleon\SmsPark\Exceptions;
 
-class SmsParkException extends \Exception {}
+class SmsParkException extends \Exception
+{
+}

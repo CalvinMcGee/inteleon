@@ -17,7 +17,7 @@ class ParkingTariff implements \IteratorAggregate
     public function addTariffRule($tariffRule)
     {
         // @todo add Closure support
-        if(!$tariffRule instanceof TariffRuleInterface) {
+        if (!$tariffRule instanceof TariffRuleInterface) {
             throw new SmsParkException(sprintf('Tariff rule must be an instance of TariffRuleInterface but %s given', gettype($tariffRule)));
         }
 
