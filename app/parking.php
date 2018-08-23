@@ -36,7 +36,10 @@ $storgatan->addTariffRule($hourlyTariff);
 $parkingA = new ParkingFee($storgatan, 1514800800, 1514808000);
 
 // Parking fee should be 10 SEK for first hour and 5 SEK for second hour
-echo $parkingA->getTotalFee() . PHP_EOL;
+$parkingFeeA = $parkingA->getTotalFee();
+echo 'Parking between' . PHP_EOL;
+echo $parkingA->getParking()->getStartDate()->format('Y-m-d H:i:s') . ' - ' . $parkingA->getParking()->getEndDate()->format('Y-m-d H:i:s') . PHP_EOL;
+echo $parkingFeeA . ' SEK' . PHP_EOL;
 
 /**
  * Parking B
@@ -46,4 +49,7 @@ echo $parkingA->getTotalFee() . PHP_EOL;
 $parkingB = new ParkingFee($storgatan, 1514800800, 1514930400);
 
 // Parking fee should be 25 SEK for the first day and 25 SEK for the second day
-echo $parkingB->getTotalFee() . PHP_EOL;
+$parkingFeeB = $parkingB->getTotalFee();
+echo 'Parking between' . PHP_EOL;
+echo $parkingFeeB . ' SEK' . PHP_EOL;
+echo $parkingB->getParking()->getStartDate()->format('Y-m-d H:i:s') . ' - ' . $parkingB->getParking()->getEndDate()->format('Y-m-d H:i:s') . PHP_EOL;

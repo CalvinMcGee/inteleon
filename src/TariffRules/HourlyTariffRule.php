@@ -76,7 +76,13 @@ class HourlyTariffRule implements TariffRuleInterface
      */
     private function executePart(Parking $parking, \stdClass $rulePart)
     {
-        $tariffStart = new \Datetime(sprintf('%s %02d:%02d:00', $parking->getCurrent()->format('Y-m-d'), $rulePart->fromHour, $rulePart->fromMinute));
+        $tariffStart = new \Datetime(
+            sprintf(
+                '%s %02d:%02d:00',
+                $parking->getCurrent()->format('Y-m-d'),
+                $rulePart->fromHour, $rulePart->fromMinute
+            )
+        );
 
         if ($parking->getCurrent() < $tariffStart) {
             return $parking;
@@ -86,7 +92,13 @@ class HourlyTariffRule implements TariffRuleInterface
             $tariffEnd = clone $parking->getCurrent();
             $tariffEnd->add(new \DateInterval(sprintf('PT%dH', $rulePart->duration)));
         } else {
-            $tariffEnd = new \Datetime(sprintf('%s %02d:%02d:00', $parking->getCurrent()->format('Y-m-d'), $rulePart->toHour, $rulePart->toMinute));
+            $tariffEnd = new \Datetime(
+                sprintf(
+                    '%s %02d:%02d:00',
+                    $parking->getCurrent()->format('Y-m-d'),
+                    $rulePart->toHour, $rulePart->toMinute
+                )
+            );
         }
 
         if ($parking->getCurrent() > $tariffEnd) {

@@ -25,6 +25,14 @@ class ParkingFee
     }
 
     /**
+     * @return Parking
+     */
+    public function getParking()
+    {
+        return $this->parking;
+    }
+
+    /**
      * @return int|float
      */
     public function getTotalFee()
